@@ -1,6 +1,8 @@
-char title[] = "Plant Monitor by Horstwursti ";
-char contact[] = "Contact: horstwursti@hackerspace-bielefeld.de / Mastodon: @horstwursti";
+char title[] = "PlantMonitor";
 char version[] = "V1.3";
+char owner[] = "by Horstwursti";
+char contact[] = "Mail: horstwursti@hackerspace-bielefeld.de / Mastodon: @horstwursti";
+
 
 #include <LiquidCrystal.h>
 #include <LcdBarGraph.h>
@@ -48,6 +50,7 @@ void setup() {
   Serial.begin(9600);
   Serial.print(title);
   Serial.println(version);
+  Serial.println(owner);
   Serial.println(contact);
   Serial.println("starting...");
   pinMode(sensorOnOffPin, OUTPUT);
@@ -57,11 +60,11 @@ void setup() {
   pinMode(buttonPin, INPUT_PULLUP);
   lcd.begin(16, 2);
   digitalWrite(backlightPin, HIGH);
-  lcd.print("PlantMonitor");
+  lcd.print(title);
   //lcd.setCursor(0, 13);
   lcd.print(version);
   lcd.setCursor(1, 1);
-  lcd.print("by Horstwursti");
+  lcd.print(owner);
   delay(3000);
   lcd.clear();
   digitalWrite(backlightPin, LOW);
@@ -130,7 +133,6 @@ void loop() {
     Serial.print("%");
     Serial.print(" Runtime:");
     Serial.print(seconds); 
-
     Serial.println(" seconds");
     
     lastSerial = currentMillis;
@@ -139,7 +141,6 @@ void loop() {
 }
 
 void wet() {
-
   digitalWrite(sensorOnOffPin, HIGH);
   delay(sensorReadDelay);
   ledState = digitalRead(digitalPlantSensorPin);
@@ -158,8 +159,6 @@ void wet() {
 }
 
 void lux() {
-
-
   sensorValueLux = analogRead(lightSensorPin);
   barGraphLux = map(sensorValueLux, 0, 1023, 0, 1023);
   percentLux = map(sensorValueLux, 0, 1023, 0, 100); 
